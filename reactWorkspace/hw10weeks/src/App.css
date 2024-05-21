@@ -1,13 +1,29 @@
-
 .App {
   text-align: center;
-  display: flex;
-  align-items: center;
+  margin-top: 50px;
 }
 
+
+.choices button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+.choice-image {
+  margin: 0 10px;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: no-preference) {
