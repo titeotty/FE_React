@@ -2,8 +2,8 @@ import "./App.css";
 import Header from "./component/Header";
 import TodoEditor from "./component/TodoEditor";
 import TodoList from "./component/TodoList";
-import { useState } from 'react';
-import { useRef } from 'react';
+import TestComp from "./component/TestComp";
+import { useReducer, useRef } from 'react';
 
 const mockTodo = [
   {
@@ -26,39 +26,79 @@ const mockTodo = [
   }
 ];
 
+function reducer(state, action) {
+  switch (action.type) {
+      case "DELETE":
+          return state.filter((it) => it.id !== action.targetId);
+      case "CREATE":
+          return [action.newItem, ...state];
+      case "UPDATE":
+          return state.map((it) =>
+            it.id === action.targetId ? { ...it, isDone: !it.isDone } : it
+          );
+      default:
+          return state;
+  }
+}
+
 function App() {
-  const [todo, setTodo] = useState(mockTodo);
+  const [todo, dispatch] = useReducer(reducer, mockTodo);
   const idRef = useRef(3);
-  
-  const onDelete =(targetId)=>{
-    setTodo(todo.filter((it)=>it.id !== targetId));
+
+  const onDelete = (targetId) => {
+    dispatch({ type: "DELETE", targetId });
   };
 
-  const onUpdate =(targetId)=>{
-    setTodo(
-      todo.filter((it)=> {
-        if(it.id===targetId)
-          return {isDone: !it.isDone}
-      })
-    );
+  const onUpdate = (targetId) => {
+    dispatch({ type: "UPDATE", targetId });
   };
 
   const onCreate = (content) => {
     const newItem = {
       id: idRef.current,
-      content: content,
+      content,
       isDone: false,
       createdDate: new Date().getTime(),
     };
-    setTodo([...todo, newItem]);
+    dispatch({ type: "CREATE", newItem });
     idRef.current += 1;
   };
 
+  //   useState 사용 시 
+
+//   const [todo, setTodo] = useState(mockTodo);
+//   const idRef = useRef(3);
+  
+//   const onDelete =(targetId)=>{
+//     setTodo(todo.filter((it)=>it.id !== targetId));
+//   };
+
+//   const onUpdate =(targetId)=>{
+//     setTodo(
+//       todo.filter((it)=> {
+//         if(it.id===targetId)
+//           return {isDone: !it.isDone}
+//       })
+//     );
+//   };
+
+//   const onCreate = (content) => {
+//     const newItem = {
+//       id: idRef.current,
+//       content: content,
+//       isDone: false,
+//       createdDate: new Date().getTime(),
+//     };
+//     setTodo([...todo, newItem]);
+//     idRef.current += 1;
+//   };
+
   return (
     <div className="App">
+      <TestComp />
       <Header />
-      <TodoEditor onCreate={onCreate}/>
-      <TodoList todo={todo} onDelete={onDelete} onUpdate={onUpdate}/>
+      <TodoEditor onCreate={onCreate} />
+      <TodoList todo={todo} onDelete={onDelete} onUpdate={onUpdate} />
     </div>
   );
 }
