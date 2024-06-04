@@ -1,6 +1,10 @@
 import "./TodoItem.css";
+import React from 'react';
 
 const TodoItem = ({ id, content, isDone, createdDate, onDelete, onUpdate }) => {
+
+  console.log(`${id} TodoItem 업데이트`);
+
   const onClickDelete = () => {
     onDelete(id);
     return;
@@ -27,4 +31,4 @@ const TodoItem = ({ id, content, isDone, createdDate, onDelete, onUpdate }) => {
   );
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);

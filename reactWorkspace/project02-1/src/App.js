@@ -3,7 +3,7 @@ import Header from "./component/Header";
 import TodoEditor from "./component/TodoEditor";
 import TodoList from "./component/TodoList";
 import TestComp from "./component/TestComp";
-import { useReducer, useRef } from 'react';
+import { useCallback, useReducer, useRef } from 'react';
 
 const mockTodo = [
   {
@@ -26,6 +26,7 @@ const mockTodo = [
   }
 ];
 
+//action은 촉매함수
 function reducer(state, action) {
   switch (action.type) {
       case "DELETE":
@@ -44,16 +45,19 @@ function reducer(state, action) {
 function App() {
   const [todo, dispatch] = useReducer(reducer, mockTodo);
   const idRef = useRef(3);
-
-  const onDelete = (targetId) => {
+  
+  const onDelete = useCallback ((targetId) => {
     dispatch({ type: "DELETE", targetId });
-  };
+  }, []);
+    //targetId -> 왼쪽 값과 오른쪽 값이 동일한 경우엔 targetId와 같이 한번만 작성해도 됨
+  
 
-  const onUpdate = (targetId) => {
+  const onUpdate = useCallback ((targetId) => {
     dispatch({ type: "UPDATE", targetId });
-  };
+  }, []);
+  
 
-  const onCreate = (content) => {
+  const onCreate = useCallback ((content) => {
     const newItem = {
       id: idRef.current,
       content,
@@ -62,7 +66,7 @@ function App() {
     };
     dispatch({ type: "CREATE", newItem });
     idRef.current += 1;
-  };
+  }, []);
 
   //   useState 사용 시 
 
