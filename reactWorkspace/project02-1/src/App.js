@@ -3,7 +3,7 @@ import Header from "./component/Header";
 import TodoEditor from "./component/TodoEditor";
 import TodoList from "./component/TodoList";
 import TestComp from "./component/TestComp";
-import { useCallback, useReducer, useRef } from 'react';
+import { useCallback, useReducer, useRef, React } from 'react';
 
 const mockTodo = [
   {
@@ -42,8 +42,12 @@ function reducer(state, action) {
   }
 }
 
+export const TodoStateContext = React.createContext();
+
 function App() {
+
   const [todo, dispatch] = useReducer(reducer, mockTodo);
+
   const idRef = useRef(3);
   
   const onDelete = useCallback ((targetId) => {
@@ -100,9 +104,11 @@ function App() {
   return (
     <div className="App">
       <TestComp />
+      <TodoStateContext.Provider value = {{todo, onCreate, onUpdate, onDelete} }>
       <Header />
-      <TodoEditor onCreate={onCreate} />
-      <TodoList todo={todo} onDelete={onDelete} onUpdate={onUpdate} />
+      <TodoEditor/>
+      <TodoList/>
+      </TodoStateContext.Provider>
     </div>
   );
 }

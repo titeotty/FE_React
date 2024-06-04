@@ -1,8 +1,12 @@
 import "./TodoItem.css";
 import React from 'react';
+import { useContext } from 'react';
+import { TodoStateContext } from "../App";
 
-const TodoItem = ({ id, content, isDone, createdDate, onDelete, onUpdate }) => {
+const TodoItem = ({ id, content, isDone, createdDate }) => {
 
+  const {onDelete, onUpdate} = useContext(TodoStateContext);
+  
   console.log(`${id} TodoItem 업데이트`);
 
   const onClickDelete = () => {

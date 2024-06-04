@@ -1,9 +1,12 @@
 import "./TodoList.css";
 import TodoItem from "./TodoItem";
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
+import { TodoStateContext } from "../App";
 
-const TodoList = ({ todo, onDelete, onUpdate }) => {
-  
+const TodoList = () => {
+  const {todo} = useContext(TodoStateContext);
+  const {onDelete, onUpdate} = useContext(TodoStateContext);
+
   const analyzeTodo = useMemo(() => {
     console.log("analyzeTodo 함수 호출");
     const totalCount = todo.length;
@@ -50,6 +53,10 @@ const TodoList = ({ todo, onDelete, onUpdate }) => {
       </div>
     </div>
   );
+};
+
+TodoList.defaultProps = {
+  todo : [],
 };
 
 export default TodoList;
