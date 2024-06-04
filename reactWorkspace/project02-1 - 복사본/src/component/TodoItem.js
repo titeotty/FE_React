@@ -1,6 +1,12 @@
 import "./TodoItem.css";
-import React from 'react';
+import React, { useState } from 'react';
+import { useContext } from 'react';
+import { TodoStateContext } from "../App";
+
 const TodoItem = ({ id, content, isDone, createdDate }) => {
+  const { onDelete, onUpdate } = useContext(TodoStateContext);
+
+  const [isChecked, setIsChecked] = useState(isDone); 
   console.log(`${id} TodoItem 업데이트`);
 
   const onClickDelete = () => {
@@ -12,18 +18,17 @@ const TodoItem = ({ id, content, isDone, createdDate }) => {
     onUpdate(id);
     return;
   };
-
   return (
     <div className="TodoItem">
       <div className="checkbox_col">
-        <input type="checkbox" checked={isDone} onChange={onChangeCheckbox} />
+        <input type="checkbox" checked={isChecked} onChange={onChangeCheckbox} />
       </div>
       <div className="title_col">{content}</div>
       <div className="date_col">
         {new Date(createdDate).toLocaleDateString()}
       </div>
       <div className="btn_col">
-        <button onClick={onClickDelete} value={onDelete}>삭제</button> 
+        <button onClick={onClickDelete}>삭제</button>
       </div>
     </div>
   );
