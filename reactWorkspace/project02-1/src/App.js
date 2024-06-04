@@ -3,7 +3,9 @@ import Header from "./component/Header";
 import TodoEditor from "./component/TodoEditor";
 import TodoList from "./component/TodoList";
 import TestComp from "./component/TestComp";
-import { useCallback, useReducer, useRef, React } from 'react';
+import React, { useCallback, useReducer, useRef } from 'react';
+
+export const TodoStateContext = React.createContext();
 
 const mockTodo = [
   {
@@ -42,8 +44,6 @@ function reducer(state, action) {
   }
 }
 
-export const TodoStateContext = React.createContext();
-
 function App() {
 
   const [todo, dispatch] = useReducer(reducer, mockTodo);
@@ -62,13 +62,12 @@ function App() {
   
 
   const onCreate = useCallback ((content) => {
-    const newItem = {
+    dispatch({ type: "CREATE", newItem: {
       id: idRef.current,
       content,
       isDone: false,
       createdDate: new Date().getTime(),
-    };
-    dispatch({ type: "CREATE", newItem });
+    }, });
     idRef.current += 1;
   }, []);
 

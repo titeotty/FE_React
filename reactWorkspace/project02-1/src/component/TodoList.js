@@ -4,8 +4,8 @@ import React, { useState, useMemo, useContext } from 'react';
 import { TodoStateContext } from "../App";
 
 const TodoList = () => {
+
   const {todo} = useContext(TodoStateContext);
-  const {onDelete, onUpdate} = useContext(TodoStateContext);
 
   const analyzeTodo = useMemo(() => {
     console.log("analyzeTodo 함수 호출");
@@ -48,7 +48,7 @@ const TodoList = () => {
       />
       <div className="list_wrapper">
         {filteredTodo.map((it) => (
-          <TodoItem key={it.id} {...it} onDelete={onDelete} onUpdate={onUpdate} />
+          <TodoItem key={it.id} {...it}/>
         ))}
       </div>
     </div>
