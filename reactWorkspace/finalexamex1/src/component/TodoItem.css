@@ -16,7 +16,7 @@
 
 .TodoItem .date_col {
     font-size: 14px;
-    color: aliceblue;
+    color: rgb(0, 0, 0);
 }
 
 .TodoItem .btn_col button {

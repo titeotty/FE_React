@@ -29,8 +29,8 @@ function App() {
   ]
 
   const [todo, setTodo] = useState(mockTodo);
-
   const idRef = useRef(3); //목 데이터의 값이 0, 1, 2 총 3개이므로 useRef에 초기값을 3으로 설정
+  
   const onCreate = (content) => {
     const newItem = {
       id: idRef.current,
@@ -41,12 +41,32 @@ function App() {
     setTodo([newItem, ...todo]);
     idRef.current += 1;
   };
+  
+  const onUpdate = (targetId) => {
+    setTodo(
+      todo.map(
+        (it)=> {
+          if(it.id === targetId) {
+            return {
+              ...it,
+              isDone: !it.isDone,
+            };
+        } else {
+          return it;
+        }
+      })
+    );
+  };
+
+  const onDelete = (targetId) => {
+    setTodo(todo.filter((it) => it.id !== targetId));
+  };
 
   return (
     <div className="App">
       <Header />
       <TodoEditor onCreate={onCreate}/>
-      <TodoList todo={todo}/>
+      <TodoList todo={todo} onUpdate={onUpdate} onDelete={onDelete} />
     </div>
   );
 }
