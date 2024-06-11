@@ -32,6 +32,3 @@ const TodoItem = ({ id, content, isDone, createdDate}) => {
   );
 };
 export default React.memo(TodoItem);
-
-
-
