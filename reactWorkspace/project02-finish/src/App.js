@@ -84,8 +84,7 @@ function App() {
   const memoizedDispatches = useMemo(() => {
     return { onCreate, onUpdate, onDelete };
   }, []);
-
-  return (
+ return (
     <div className="App">
       <Header />
         <TodoStateContext.Provider value={todo}>
